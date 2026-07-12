@@ -1,0 +1,21 @@
+services:
+    frontend:
+        build: ./frontend/social_media_app
+        ports:
+            - "8080:80"
+        depends_on:
+            - backend
+
+    backend:
+        build: ./backend
+        env_file:
+            - ./backend/.env
+
+    nginx:
+        image: nginx:latest
+        ports:
+            - "3000:80"
+        volumes:
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+        depends_on:
+            - backend

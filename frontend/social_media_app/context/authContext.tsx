@@ -28,7 +28,6 @@ function AuthContextProvider({ children }: { children: ReactNode }) {
             if(res.status === 200){
                 setUser(res.data.user)
             }
-            console.log(res.data)
         })
         .catch((error) => console.log(error.response.data));
     }, [])

@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename);
 export const app = express();
 
 app.use(cors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    origin: process.env.CORS_ORIGIN || 'http://localhost:8080',
     credentials: true
 }))
 app.use(express.json({limit: "16kb"}))
@@ -30,11 +30,11 @@ app.use('/post', postroutes);
 app.use('/user', userroutes);
 
 // Serve static files from frontend build
-app.use(express.static(path.join(__dirname, "../frontend/social_media_app/dist")));
+// app.use(express.static(path.join(__dirname, "../frontend/social_media_app/dist")));
 
 // SPA catch-all route - serve index.html for all unmatched routes
-app.get(/\/.*/, (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../frontend/social_media_app/dist/index.html"));
-});
+// app.get(/\/.*/, (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "../frontend/social_media_app/dist/index.html"));
+// });
 
 

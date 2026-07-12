@@ -71,3 +71,23 @@ export default defineConfig([
   },
 ])
 ```
+
+## Docker
+
+Build the production image from this directory:
+
+```bash
+docker build -t social-media-app .
+```
+
+If you need to set the API URL at build time, pass it as a build arg:
+
+```bash
+docker build --build-arg VITE_API_URL=https://api.example.com -t social-media-app .
+```
+
+Run the container on port 8080:
+
+```bash
+docker run --rm -p 8080:80 social-media-app
+```

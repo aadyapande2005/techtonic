@@ -1,0 +1,16 @@
+{
+  "name": "recommendation_engine",
+  "version": "1.0.0",
+  "description": "recommendation engine for blog app",
+  "license": "ISC",
+  "author": "Aadya Pande",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bullmq": "^5.80.3",
+    "ioredis": "^5.11.1"
+  }
+}

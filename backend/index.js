@@ -1,4 +1,4 @@
-import connectdb from './db.js';
+import connectdb from './config/db.js'
 import {app} from './app.js'
 
 

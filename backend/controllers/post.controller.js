@@ -1,5 +1,7 @@
 import Post from "../models/posts.model.js";
 import User from "../models/user.model.js";
+import { postQueue } from "../queues/post.queue.js";
+import { profileQueue } from "../queues/profile.queue.js";
 
 const sanitizeTopics = (topics) => {
     if (!topics) return [];
@@ -201,6 +203,8 @@ export const generatepost = async (req, res) => {
             .json({message : 'user not found while linking post'});
         }
 
+        postQueue.add('insert-post', { post: newpost }, { jobId: newpost._id.toString(), removeOnComplete: true, removeOnFail: true });
+
         return res
         .status(200)
         .json({message : `posts created successfully by user with id ${userid}`, newpost});
@@ -316,6 +320,18 @@ export const likepost = async (req, res) => {
             .status(404)
             .json({message : 'user not found or unavailable'});
         }
+
+        await profileQueue.add(
+            'profile-update', 
+            { 
+                user : {
+                    id: userid,
+                    qdrantId: likeByUser.qdrantId,
+                },
+                post: liked_post 
+            }, 
+            { jobId: `${userid}-${postid}` }
+        );
 
         return res
         .status(200)

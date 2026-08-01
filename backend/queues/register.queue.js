@@ -2,8 +2,8 @@ import { Queue } from "bullmq";
 import { redisConnection } from "../config/redis.js";
 
 
-export const postQueue = new Queue(
-    "insert-post",
+export const preferenceQueue = new Queue(
+    "user-preference-initialize",
     {
         connection: redisConnection,
         defaultJobOptions: {
@@ -17,3 +17,4 @@ export const postQueue = new Queue(
         },
     }
 );
+

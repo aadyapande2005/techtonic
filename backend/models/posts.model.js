@@ -23,6 +23,10 @@ const postSchema = new mongoose.Schema({
         lowercase : true,
         trim : true
     }],
+    qdrantId : {
+        type : String,
+        default : null
+    },
     isAvailable: {
         type: Boolean,
         default: true

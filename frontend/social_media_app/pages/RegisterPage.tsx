@@ -7,18 +7,35 @@ function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [interests, setInterests] = useState<string[]>([]);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const techInterests = [
+    'React', 'Node.js', 'TypeScript', 'Python', 'Go', 'Rust', 'Docker', 'Kubernetes',
+    'AWS', 'Azure', 'Machine Learning', 'AI', 'Blockchain', 'Web3', 'Cybersecurity'
+  ];
+
   const navigate = useNavigate();
+
+  const toggleInterest = (interest: string) => {
+    setInterests(prev => 
+      prev.includes(interest) ? prev.filter(i => i !== interest) : [...prev, interest]
+    );
+  };
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (isSubmitting) return
+    if (interests.length < 3) {
+      setError('Please select at least 3 interests.');
+      return;
+    }
 
     console.log('Username:', username);
     console.log('Email:', email);
     console.log('Password:', password);
+    console.log('Interests:', interests);
     setError('')
     setIsSubmitting(true)
 
@@ -27,7 +44,8 @@ function Register() {
         {
           username,
           email,
-          password
+          password,
+          interests
       })
 
       console.log(response.data)
@@ -83,6 +101,26 @@ function Register() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+
+            <div className="w-full">
+              <label className="block text-amber-900 font-medium mb-2">Select your interests (at least 3):</label>
+              <div className="flex flex-wrap gap-2">
+                {techInterests.map(interest => (
+                  <button
+                    key={interest}
+                    type="button"
+                    className={`px-3 py-1.5 rounded-full text-sm font-medium border transition ${
+                      interests.includes(interest) 
+                        ? 'bg-amber-800 text-amber-50 border-amber-800' 
+                        : 'bg-white text-amber-800 border-amber-300 hover:border-amber-500'
+                    }`}
+                    onClick={() => toggleInterest(interest)}
+                  >
+                    {interest}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             <button 
               className="pressable mt-2 flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-amber-800 px-5 py-3 text-lg font-semibold text-amber-50 shadow-lg shadow-orange-300/40 transition hover:bg-amber-900 disabled:cursor-not-allowed disabled:opacity-70" 

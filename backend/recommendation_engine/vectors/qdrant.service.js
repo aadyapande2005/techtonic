@@ -5,79 +5,54 @@ import { qdclient as client } from "../../config/qdrant.js";
 
 class QdrantService {
 
-    //-------------------------------------------------------
-    // UPSERT
-    //-------------------------------------------------------
-
     async upsert(collection, id, vector, payload = {}) {
 
         await client.upsert(collection, {
 
             wait: true,
-
             points: [
-
                 {
-
                     id,
-
                     vector,
-
                     payload
-
                 }
-
             ]
-
         });
 
     }
-
-    //-------------------------------------------------------
-    // SEARCH
-    //-------------------------------------------------------
 
     async search(collection, vector, limit = 10, filter = undefined) {
 
         const result = await client.search(collection, {
 
             vector,
-
             limit,
-
             filter
-
         });
 
         return result;
 
     }
 
-    //-------------------------------------------------------
-    // DELETE
-    //-------------------------------------------------------
 
     async delete(collection, id) {
 
         await client.delete(collection, {
 
             wait: true,
-
             points: [id]
 
         });
 
     }
 
-    //-------------------------------------------------------
-    // GET ONE
-    //-------------------------------------------------------
-
     async retrieve(collection, id) {
 
         const result = await client.retrieve(collection, {
 
-            ids: [id]
+            ids: [id],
+            with_vector: true,
+            with_payload: true
 
         });
 
@@ -85,25 +60,18 @@ class QdrantService {
 
     }
 
-    //-------------------------------------------------------
-    // UPDATE PAYLOAD ONLY
-    //-------------------------------------------------------
 
     async updatePayload(collection, id, payload) {
 
         await client.setPayload(collection, {
 
             payload,
-
             points: [id]
 
         });
 
     }
 
-    //-------------------------------------------------------
-    // SCROLL
-    //-------------------------------------------------------
 
     async scroll(collection, limit = 100) {
 
@@ -117,9 +85,6 @@ class QdrantService {
 
     }
 
-    //-------------------------------------------------------
-    // EXISTS
-    //-------------------------------------------------------
 
     async exists(collection, id) {
 
@@ -129,9 +94,6 @@ class QdrantService {
 
     }
 
-    //-------------------------------------------------------
-    // RANDOM ID
-    //-------------------------------------------------------
 
     createId() {
 

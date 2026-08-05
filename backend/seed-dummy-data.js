@@ -1,5 +1,5 @@
 import connectdb from './db.js';
-import { createMultiplePostsForUser } from './controllers/post.controller.js';
+import { createMultiplePostsForUser } from './controllers/post/createMultiplePostsForUser.js';
 
 const dummyPosts = {
     aadya: [

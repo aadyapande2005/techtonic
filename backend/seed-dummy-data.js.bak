@@ -1,0 +1,10 @@
+import connectdb from './db.js';
+import { createMultiplePostsForUser } from './controllers/post.controller.js';
+
+const dummyPosts = {
+    aadya: [
+        {
+            title: 'Modern landing page',
+            description: 'Building a clean homepage with strong visual hierarchy.',
+            topics: ['web development', 'ui', 'frontend']
+        },

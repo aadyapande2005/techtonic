@@ -3,15 +3,12 @@ import { verifyjwt } from '../middleware/verifyjwt.js';
 
 const userroutes = express();
 
-import { 
-    getuser, 
-    getusers,
-    updateuser,
-    deleteuser,
-    getuserlikes,
-    getusersavedposts
-} 
-from '../controllers/user.controller.js';
+import { getuser } from '../controllers/user/getuser.js';
+import { getusers } from '../controllers/user/getusers.js';
+import { updateuser } from '../controllers/user/updateuser.js';
+import { deleteuser } from '../controllers/user/deleteuser.js';
+import { getuserlikes } from '../controllers/user/getuserlikes.js';
+import { getusersavedposts } from '../controllers/user/getusersavedposts.js';
 
 
 userroutes.get('/', getusers);

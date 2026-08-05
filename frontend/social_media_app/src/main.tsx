@@ -12,11 +12,13 @@ import CreatePostPage from '../pages/CreatePostPage.tsx'
 import PostPage from '../pages/PostPage.tsx'
 import SavedPostsPage from '../pages/SavedPostsPage.tsx'
 import UserDetailPage from '../pages/UserDetailPage.tsx'
+import SimilarSearchResultsPage from '../pages/SimilarSearchResultsPage.tsx'
 
 import getposts from '../loaders/postLoader'
 import userPosts from '../loaders/userPostLoader.ts'
 import savedPostsLoader from '../loaders/savedPostsLoader.ts'
 import userDetailLoader from '../loaders/userDetailLoader.ts'
+import getSimilarPosts from '../loaders/similarSearchLoader.ts'
 
 import AuthContextProvider from '../context/authContext.tsx'
 import Protected from './Protected.tsx'
@@ -44,6 +46,11 @@ const router = createBrowserRouter([
         path: '/user/:userid',
         element: <UserDetailPage />,
         loader: userDetailLoader
+      },
+      {
+        path: '/search/similar/:search_query',
+        element: <SimilarSearchResultsPage />,
+        loader: getSimilarPosts
       }
     ]
   },

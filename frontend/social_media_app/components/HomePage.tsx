@@ -16,6 +16,7 @@ interface PaginationData {
 function HomePage() {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
+  const [smartSearchQuery, setSmartSearchQuery] = useState('')
 
   const {posts, liked_posts, saved_posts, pagination} = useLoaderData() as {
     posts: PostData[]
@@ -52,6 +53,19 @@ function HomePage() {
     setTopicInput('')
     setSearchParams({ page: '1' })
   }
+
+  const handleSmartSearch = () => {
+    const query = smartSearchQuery.trim()
+    if (!query) return
+    // Navigate to similarity search results page
+    navigate(`/search/similar/${encodeURIComponent(query)}`)
+  }
+
+  const handleSmartSearchKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSmartSearch()
+    }
+  }
   
   return (
     <>
@@ -87,9 +101,32 @@ function HomePage() {
           )}
         </div>
 
-      <div className='grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3'>
-        {posts.map((post) => (
+        {/* Smart Search Section */}
+        <div className='rise-in mb-6 rounded-3xl border border-blue-200/70 bg-blue-50/90 px-6 py-5 shadow-xl shadow-blue-900/10'>
+          <h3 className='text-2xl font-semibold text-blue-950'>Smart Search (AI-Powered)</h3>
+          <p className='mt-1 text-blue-800'>Find posts by semantic meaning, not just keywords. Results with less than 50% similarity are filtered out.</p>
           
+          <div className='mt-4 flex flex-wrap items-center gap-3'>
+            <input
+              type='text'
+              value={smartSearchQuery}
+              onChange={(event) => setSmartSearchQuery(event.target.value)}
+              onKeyDown={handleSmartSearchKeyDown}
+              placeholder='Search by meaning (e.g. "how to optimize react performance", "best practices for nodejs authentication")'
+              className='w-full max-w-2xl rounded-2xl border border-blue-300 bg-white px-4 py-2 text-blue-900 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-200'
+            />
+            <button
+              className='pressable cursor-pointer rounded-full bg-blue-900 px-4 py-2 text-blue-50'
+              onClick={handleSmartSearch}
+              disabled={!smartSearchQuery.trim()}
+            >
+              Smart Search
+            </button>
+          </div>
+        </div>
+
+      <div className='grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3'>
+        {posts.map((post) => (          
           <PostCard 
             key={post._id}
             _id={post._id}

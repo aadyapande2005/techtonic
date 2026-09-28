@@ -33,6 +33,9 @@ const userSchema = new mongoose.Schema({
             type : String,
             default : null
         },
+        lastInteractionUpdate : {
+            type : Date  
+        },
         refreshToken : {
             type : String
         },

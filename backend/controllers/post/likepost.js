@@ -1,5 +1,6 @@
 import Post from "../../models/posts.model.js";
 import User from "../../models/user.model.js";
+import UserInteraction from "../../models/user_interaction.model.js";
 import { profileQueue } from "../../queues/profile.queue.js";
 
 export const likepost = async (req, res) => {
@@ -32,16 +33,19 @@ export const likepost = async (req, res) => {
             .json({message : 'user not found or unavailable'});
         }
 
+        await UserInteraction.create({
+            userId: userid,
+            postId: postid,
+            qdrantId: liked_post.qdrantId,
+            interactionType: 'LIKE',
+        });
+
         await profileQueue.add(
             'profile-update', 
             { 
-                user : {
-                    id: userid,
-                    qdrantId: likeByUser.qdrantId,
-                },
-                post: liked_post 
-            }, 
-            { jobId: `${userid}-${postid}` }
+                userId: userid
+            },
+            { jobId: `${userid}`, removeOnComplete: true, removeOnFail: true }
         );
 
         return res

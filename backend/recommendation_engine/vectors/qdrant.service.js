@@ -24,7 +24,6 @@ class QdrantService {
     async search(collection, vector, limit = 10, filter = undefined) {
 
         const result = await client.search(collection, {
-
             vector,
             limit,
             filter

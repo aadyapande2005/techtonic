@@ -2,14 +2,30 @@ import { apiRequest } from '../lib/apiRequest'
 
 type LikedPost = string | { _id?: string }
 
-const getSimilarPosts = async ({ request, params }: { request: Request, params: { search_query: string } }) => {
+const getSimilarPosts = async ({ request, params }: { request: Request, params: { search_query?: string } }) => {
     try {
         const url = new URL(request.url)
         const page = Number(url.searchParams.get('page') || '1')
         const safePage = Number.isNaN(page) || page < 1 ? 1 : page
         const limit = 10
 
-        const searchQuery = params.search_query
+        const searchQuery = params.search_query || ''
+    if (!searchQuery) {
+        return {
+            posts: [],
+            liked_posts: [],
+            saved_posts: [],
+            pagination: {
+                page: 1,
+                limit: 10,
+                totalResults: 0,
+                totalPages: 1,
+                hasPrevPage: false,
+                hasNextPage: false
+            },
+            query: ''
+        }
+    }
 
         let posts
         let pagination

@@ -1,5 +1,7 @@
 import Post from "../../models/posts.model.js";
 import User from "../../models/user.model.js";
+import UserInteraction from "../../models/user_interaction.model.js";
+import { profileQueue } from "../../queues/profile.queue.js";
 
 export const unlikepost = async (req, res) => {
     try {
@@ -30,6 +32,21 @@ export const unlikepost = async (req, res) => {
             .json({message : 'user not found or unavailable'});
         }
 
+        await UserInteraction.create({
+            userId: userid,
+            postId: postid,
+            qdrantId: liked_post.qdrantId,
+            interactionType: 'UNLIKE'
+        });
+
+        await profileQueue.add(
+            'profile-update', 
+            { 
+                userId: userid
+            },
+            { jobId: `${userid}`, removeOnComplete: true, removeOnFail: true }
+        );
+
         return res
         .status(200)
         .json({message : `post unliked successfully by user with id ${userid}`, liked_post});
@@ -38,6 +55,6 @@ export const unlikepost = async (req, res) => {
         console.log(error);
         return res
         .status(500)
-        .json({message : `error while liking post`});
+        .json({message : `error while unliking post`});
     }
 }

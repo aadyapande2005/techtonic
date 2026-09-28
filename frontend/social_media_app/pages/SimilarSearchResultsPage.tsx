@@ -51,9 +51,7 @@ function SimilarSearchResultsPage() {
     <>
       <section className='mx-auto w-full max-w-7xl px-4 pb-10 pt-4'>
         <div className='rise-in mb-6 rounded-3xl border border-blue-200/70 bg-blue-50/90 px-6 py-5 shadow-xl shadow-blue-900/10'>
-          <h2 className='display-title text-3xl font-semibold text-blue-950 md:text-4xl'>Smart Search Results</h2>
-          <p className='mt-1 text-blue-800'>Showing results for: <span className='font-semibold text-blue-900'>"{decodedQuery || query}"</span></p>
-          <p className='mt-2 text-sm text-blue-700'>Results with similarity score below 50% are filtered out.</p>
+          <h2 className='display-title text-3xl font-semibold text-blue-950 md:text-4xl'>Showing results for: <span className='font-semibold text-blue-900'>"{decodedQuery || query}"</span></h2>
           
           <div className='mt-4 flex flex-wrap items-center gap-3'>
             <button

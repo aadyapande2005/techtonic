@@ -24,7 +24,7 @@ postroutes.get('/unlike/:postid', verifyjwt, unlikepost);
 postroutes.get('/save/:postid', verifyjwt, savepost);
 postroutes.get('/unsave/:postid', verifyjwt, unsavepost);
 postroutes.get('/getlikes/:postid', getlikes);
-postroutes.get('/similar/:search_query', get_posts_by_similarity);
+postroutes.get('/similar/:search_query', verifyjwt, get_posts_by_similarity);
 postroutes.post('/createpost', verifyjwt, generatepost);
 postroutes.post('/createposts', verifyjwt, generatemultipleposts);
 postroutes.delete('/deletepost/:postid', verifyjwt, deletepost)

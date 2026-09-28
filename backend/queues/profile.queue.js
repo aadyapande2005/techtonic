@@ -7,6 +7,7 @@ export const profileQueue = new Queue(
     {
         connection: redisConnection,
         defaultJobOptions: {
+            // delay: 1000*10,
             removeOnComplete: 1000,
             removeOnFail: 5000,
             attempts: 3,

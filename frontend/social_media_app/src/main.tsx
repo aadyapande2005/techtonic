@@ -25,13 +25,13 @@ import Protected from './Protected.tsx'
 
 const router = createBrowserRouter([
   {
-    path:'/',
-    element:<App />,
-    errorElement:<ErrorPage />,
+    path: '/',
+    element: <App />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: '/',
-        element:<HomePage />,
+        element: <HomePage />,
         loader: getposts
       },
       {
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/register',
-        element:<Register />
+        element: <Register />
       },
       {
         path: '/user/:userid',
@@ -51,13 +51,17 @@ const router = createBrowserRouter([
         path: '/search/similar/:search_query',
         element: <SimilarSearchResultsPage />,
         loader: getSimilarPosts
+      },
+      {
+        path: '/editor',
+        element: <CreatePostPage />
       }
     ]
   },
   {
     path: '/',
     element: <Protected />,
-    children : [
+    children: [
       {
         path: '/profile',
         element: <UserPage />,
@@ -69,11 +73,11 @@ const router = createBrowserRouter([
         loader: savedPostsLoader
       },
       {
-        path:'/post',
+        path: '/post',
         element: <CreatePostPage />
       },
       {
-        path:'/post/:postid',
+        path: '/post/:postid',
         element: <PostPage />
       }
     ]

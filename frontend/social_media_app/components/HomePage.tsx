@@ -77,23 +77,24 @@ function HomePage() {
           <div className='mt-4 flex flex-wrap items-center gap-3'>
             <input
               type='text'
-              value={topicInput}
-              onChange={(event) => setTopicInput(event.target.value)}
+              value={smartSearchQuery}
+              onChange={(event) => setSmartSearchQuery(event.target.value)}
               placeholder='Filter by topic (e.g. react, nodejs, ai)'
               className='w-full max-w-md rounded-2xl border border-amber-300 bg-white px-4 py-2 text-amber-900 outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-200'
             />
             <button
               className='pressable cursor-pointer rounded-full bg-amber-900 px-4 py-2 text-amber-50'
-              onClick={applyTopicFilter}
+              onClick={handleSmartSearch}
+              disabled={!smartSearchQuery.trim()}
             >
               Search Topic
             </button>
-            <button
+            {/* <button
               className='pressable cursor-pointer rounded-full border border-amber-300 bg-amber-50/90 px-4 py-2 text-amber-900'
               onClick={clearTopicFilter}
             >
               Clear
-            </button>
+            </button> */}
           </div>
 
           {currentTopic && (
@@ -102,7 +103,7 @@ function HomePage() {
         </div>
 
         {/* Smart Search Section */}
-        <div className='rise-in mb-6 rounded-3xl border border-blue-200/70 bg-blue-50/90 px-6 py-5 shadow-xl shadow-blue-900/10'>
+        {/* <div className='rise-in mb-6 rounded-3xl border border-blue-200/70 bg-blue-50/90 px-6 py-5 shadow-xl shadow-blue-900/10'>
           <h3 className='text-2xl font-semibold text-blue-950'>Smart Search (AI-Powered)</h3>
           <p className='mt-1 text-blue-800'>Find posts by semantic meaning, not just keywords. Results with less than 50% similarity are filtered out.</p>
           
@@ -123,7 +124,7 @@ function HomePage() {
               Smart Search
             </button>
           </div>
-        </div>
+        </div> */}
 
       <div className='grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3'>
         {posts.map((post) => (          

@@ -2,6 +2,8 @@ import embeddingService from "../../recommendation_engine/embeddings/embedding.s
 import qdrantService from "../../recommendation_engine/vectors/qdrant.service.js";
 import { COLLECTIONS } from "../../recommendation_engine/vectors/qdrant.collections.js";
 import Post from "../../models/posts.model.js";
+import UserInteraction from "../../models/user_interaction.model.js";
+import { profileQueue } from "../../queues/profile.queue.js";
 
 // Minimum similarity threshold (50% = 0.5 cosine similarity)
 const MIN_SIMILARITY_THRESHOLD = 0.3;
@@ -63,6 +65,23 @@ export const get_posts_by_similarity = async (req, res) => {
         const sortedPosts = postIds
             .map(id => postMap.get(id))
             .filter(Boolean);
+
+        // Store user interaction for search
+        await UserInteraction.create({
+            userId: req.user.id,
+            interactionType: 'SEARCH',
+            metadata: {
+                searchQuery: query.trim()
+            }
+        });
+
+        await profileQueue.add(
+            'profile-update', 
+            { 
+                userId: req.user.id
+            },
+            { jobId: `${req.user.id}`, removeOnComplete: true, removeOnFail: true }
+        );
 
         return res.status(200).json({
             message: 'Similar posts retrieved successfully',

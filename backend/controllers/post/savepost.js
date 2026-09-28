@@ -1,5 +1,7 @@
 import Post from "../../models/posts.model.js";
 import User from "../../models/user.model.js";
+import UserInteraction from "../../models/user_interaction.model.js";
+import { profileQueue } from "../../queues/profile.queue.js";
 
 export const savepost = async (req, res) => {
     try {
@@ -25,6 +27,21 @@ export const savepost = async (req, res) => {
             .status(404)
             .json({message : 'user not found or unavailable'});
         }
+
+        await UserInteraction.create({
+            userId: userid,
+            postId: postid,
+            qdrantId: postToSave.qdrantId,
+            interactionType: 'SAVE',
+        });
+
+        await profileQueue.add(
+            'profile-update', 
+            { 
+                userId: userid
+            },
+            { jobId: `${userid}`, removeOnComplete: true, removeOnFail: true }
+        );
 
         return res
         .status(200)

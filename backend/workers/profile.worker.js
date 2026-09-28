@@ -1,62 +1,38 @@
 import { Worker } from "bullmq";
 import { redisConnection } from "../config/redis.js";
-import embeddingService from "../recommendation_engine/embeddings/embedding.service.js";
-import qdrantService from "../recommendation_engine/vectors/qdrant.service.js";
+import profileBuilderService from "../recommendation_engine/profile_builder/profile_builder.service.js";
 import {profileQueue} from "../queues/profile.queue.js";
+import connectdb from "../config/db.js";
 
+await connectdb();
+
+// await profileQueue.obliterate({ force: true });
+
+// const jobs = await profileQueue.getJobs([
+//   'waiting',
+//   'active',
+//   'completed',
+//   'failed',
+//   'delayed',
+//   'paused',
+// ]);
+
+// for (const job of jobs) {
+//   console.log({ id: job.id, name: job.name, data: job.data, isCompleted: await job.isCompleted(), isFailed: await job.isFailed(), isWaiting: await job.isWaiting() });
+//   console.log(job.toJSON())
+  
+// }
 
 const worker = new Worker(
     "profile-update",
 
     async (job) => {
 
-        const { user, post } = job.data;
+        const { userId } = job.data;
 
-        console.log(`Updating profile for ${user.id}`);
+        console.log(`Processing profile update for user ${userId}`);
 
-        if(!user.qdrantId) {
-            console.log(`User does not have a qdrant id`)
-            return
-        }
-
-        const qdrant_user = await qdrantService.retrieve("users", user.qdrantId);
-
-        if (!qdrant_user) {
-            console.error(`User with qdrantId ${user.qdrantId} not found`);
-        }
-
-        console.log(qdrant_user);     
-        
-        if(!post.qdrantId) {
-            console.log(`Post does not have a qdrant id`)
-            return
-        }
-
-        const qdrant_post = await qdrantService.retrieve("posts", post.qdrantId);
-
-        if (!qdrant_post) {
-            console.error(`Post with qdrantId ${post.qdrantId} not found`);
-        }
-
-        console.log(qdrant_post)
-
-        const userVector = qdrant_user.vector;
-        const postVector = qdrant_post.vector;
-
-        const updatedUserVector = userVector.map((value, index) => 0.8*value + 0.2*postVector[index]);
-
-        console.log(updatedUserVector)
-
-        await qdrantService.upsert(
-            "users", 
-            user.qdrantId, 
-            updatedUserVector, 
-            { 
-                id: user.id,
-                username: user.username, 
-                email: user.email 
-            }
-        );
+        await profileBuilderService.buildProfile(userId); 
 
     },
 

@@ -3,8 +3,12 @@ import type UserData from './userInterface';
 export interface PostData {
     _id : string
     title : string
-    description : string
+    summary : string
+    description : unknown
+    caption?: string
     topics : string[]
     author : UserData
-    likes : string[]
+    likesCount : number
+    commentsCount?: number
+    viewsCount?: number
 }

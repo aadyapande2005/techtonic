@@ -1,9 +1,6 @@
 import { useLoaderData, useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/authContext'
 import PostCard from '../components/PostCard'
 import type { PostData } from '../interfaces/postInterface'
-
-type LikeEntry = string | { _id?: string }
 
 interface LoadedUser {
   _id?: string
@@ -13,19 +10,7 @@ interface LoadedUser {
 
 function UserDetailPage() {
   const navigate = useNavigate()
-  const auth = useAuth() as { user?: { _id?: string } } | null
-  const currentUserId = auth?.user?._id || ''
-
   const { user, posts } = useLoaderData() as { user: LoadedUser | null, posts: PostData[] }
-
-  const isPostLikedByCurrentUser = (likes: LikeEntry[] = []) => {
-    if (!currentUserId) return false
-
-    return likes.some((likeEntry) => {
-      if (typeof likeEntry === 'string') return likeEntry === currentUserId
-      return likeEntry?._id === currentUserId
-    })
-  }
 
   if (!user) {
     return (
@@ -70,10 +55,9 @@ function UserDetailPage() {
                 authorId={post.author?._id || ''}
                 title={post.title}
                 description={post.description}
-                likes={post.likes || []}
+                caption={post.caption}
+                likesCount={post.likesCount}
                 topics={post.topics || []}
-                isLiked={isPostLikedByCurrentUser(post.likes as LikeEntry[])}
-                isSaved={false}
                 onOpenPost={() => navigate(`/post/${post._id}`)}
               />
             ))}

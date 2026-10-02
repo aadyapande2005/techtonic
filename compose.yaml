@@ -15,6 +15,7 @@ services:
     volumes:
       - ./backend:/app/backend
       - /app/backend/node_modules  # Isolate node_modules from the host
+    command: sh -c "npm run build && npm start"
     depends_on:
       - redis
       - qdrant
@@ -26,7 +27,7 @@ services:
     volumes:
       - ./backend:/app/backend
       - /app/backend/node_modules  # Isolate node_modules from the host
-    command: sh -c "npm install && node workers/post.worker.js & node workers/profile.worker.js & node workers/register.worker.js & wait"
+    command: sh -c "npm run build && (npm run worker:post & npm run worker:profile & npm run worker:register & wait)"
     depends_on:
       - backend
 

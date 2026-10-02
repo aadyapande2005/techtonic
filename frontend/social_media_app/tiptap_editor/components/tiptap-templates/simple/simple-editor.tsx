@@ -204,7 +204,7 @@ const MobileToolbarContent = ({
   </>
 )
 
-export function SimpleEditor() {
+export function SimpleEditor({ onContentChange }: { onContentChange?: (content: any) => void }) {
   const isMobile = useIsBreakpoint()
   const { height } = useWindowSize()
   const [mobileView, setMobileView] = useState<"main" | "highlighter" | "link">(
@@ -256,6 +256,11 @@ export function SimpleEditor() {
       }),
     ],
     content,
+    onUpdate: ({ editor }) => {
+      if (onContentChange) {
+        onContentChange(editor.getJSON())
+      }
+    },
   })
 
   const rect = useCursorVisibility({
@@ -289,7 +294,8 @@ export function SimpleEditor() {
   }, [closeSearchAndReplace, isSearchAndReplaceOpen, openSearchAndReplace])
 
   return (
-    <div className="simple-editor-wrapper">
+    <div className="simple-editor-container">
+      <div className="simple-editor-wrapper">
       <EditorContext.Provider value={{ editor }}>
         <Toolbar
           ref={toolbarRef}
@@ -332,6 +338,7 @@ export function SimpleEditor() {
           className="simple-editor-content"
         />
       </EditorContext.Provider>
+      </div>
     </div>
   )
 }

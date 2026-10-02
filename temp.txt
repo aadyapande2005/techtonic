@@ -1,0 +1,186 @@
+
+-------------------------------------------
+
+_id: ObjectId('69e50667335e925587ccf6d6')
+username: "aadya2"
+email: "aadya2@example.com"
+password: "$2b$10$SKd073QNU6ckQ6I8tJ8Ifu7dXhVjRwKoc8IS9x1LTS7tLRlkfPOPO"
+
+likes: Array (1)
+
+posts: Array (10)
+0: ObjectId('69e5ab051bf7aad2d7b437be')
+1: ObjectId('69e6fdfa32e82ad179d9dea1')
+2: ObjectId('69e6fdfa32e82ad179d9dea3')
+3: ObjectId('69e6fdfa32e82ad179d9dea5')
+4: ObjectId('69e6fdfa32e82ad179d9dea7')
+5: ObjectId('69e6fdfa32e82ad179d9dea9')
+6: ObjectId('69e703fcd08effda1b795c27')
+7: ObjectId('69e703fcd08effda1b795c29')
+8: ObjectId('69e703fcd08effda1b795c2b')
+9: ObjectId('69e703fcd08effda1b795c2d')
+createdAt: ISODate('2026-04-19T16:44:23.805+00:00')
+updatedAt: ISODate('2026-09-23T18:26:13.949+00:00')
+__v: 1
+refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWU1MDY2NzMzNWU5MjU1ODdjY2Y2ZDYiLCJpYXQiOjE3NzY2MTcwNjMsImV4cCI6MTc3NzIyMTg2M30.HmD9ZiAPm5GDhFKBxA9ERE0mmxVHNNeXPR7HNR1cpkY"
+isAvailable: true
+
+savedPosts: Array (empty)
+
+-------------------------------------------
+
+_id: ObjectId('69e5b05749a41c4d2dcf5598')
+username: "aadya"
+email: "aadya@example.com"
+password: "$2b$10$w7beJ4QtG4cqpZjE8R.UlOTjLU4fj7jYjiqsTG0astnbTWLoUpXw."
+
+likes: Array (3)
+0: ObjectId('69e706c93a2f9a071d88ca21')
+1: ObjectId('6a6b5b0e7749fad2feeafe95')
+2: ObjectId('6a6cea0606017e401a264055')
+
+posts: Array (19)
+0: ObjectId('69e5b57cba5d83c9587d16d0')
+1: ObjectId('69e6fdfa32e82ad179d9de92')
+2: ObjectId('69e6fdfa32e82ad179d9de94')
+3: ObjectId('69e6fdfa32e82ad179d9de96')
+4: ObjectId('69e6fdfa32e82ad179d9de98')
+5: ObjectId('69e6fdfa32e82ad179d9de9a')
+6: ObjectId('69e7037fd08effda1b795c14')
+7: ObjectId('69e7037fd08effda1b795c16')
+8: ObjectId('69e7037fd08effda1b795c18')
+9: ObjectId('69e7037fd08effda1b795c1a')
+10: ObjectId('69e7069d3a2f9a071d88ca0f')
+11: ObjectId('69e7069d3a2f9a071d88ca11')
+12: ObjectId('69e7069d3a2f9a071d88ca13')
+13: ObjectId('69e7069d3a2f9a071d88ca15')
+14: ObjectId('69e7069d3a2f9a071d88ca17')
+15: ObjectId('6a6b559071a3d20b50322d94')
+16: ObjectId('6a6b579c95be44a797d9a1ec')
+17: ObjectId('6a6b58373d9077db2b79d8ab')
+18: ObjectId('6a6b5b0e7749fad2feeafe95')
+isAvailable: true
+createdAt: ISODate('2026-04-20T04:49:27.697+00:00')
+updatedAt: ISODate('2026-09-23T17:42:38.261+00:00')
+__v: 0
+refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWU1YjA1NzQ5YTQxYzRkMmRjZjU1OTgiLCJpYXQiOjE3NzY2NjA1NjcsImV4cCI6MTc3NzI2NTM2N30._TGXLi6-beeZQwGsWfDcrRlWyAwwUNJjZP5nZ_VZaj8"
+
+savedPosts: Array (1)
+0: ObjectId('69e706c93a2f9a071d88ca21')
+
+-------------------------------------------
+
+_id: ObjectId('69e7044bd08effda1b795c40')
+username: "aadya3"
+email: "aadya3@gmail.com"
+password: "$2b$10$9rXAyBe5rZi42diDZuz5u.ut7p4kyWSvXdQkzakwOP.uHpEN3Pag."
+
+likes: Array (empty)
+
+savedPosts: Array (empty)
+
+posts: Array (7)
+0: ObjectId('69e704ebd08effda1b795c6a')
+1: ObjectId('69e704ebd08effda1b795c6c')
+2: ObjectId('69e704ebd08effda1b795c6e')
+3: ObjectId('69e704ebd08effda1b795c70')
+4: ObjectId('69e706c93a2f9a071d88ca1d')
+5: ObjectId('69e706c93a2f9a071d88ca1f')
+6: ObjectId('69e706c93a2f9a071d88ca21')
+isAvailable: true
+createdAt: ISODate('2026-04-21T04:59:55.579+00:00')
+updatedAt: ISODate('2026-04-21T05:10:33.617+00:00')
+__v: 0
+refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWU3MDQ0YmQwOGVmZmRhMWI3OTVjNDAiLCJpYXQiOjE3NzY3NDc1OTUsImV4cCI6MTc3NzM1MjM5NX0.3_NWyNTxZiO2wGHjfEdyDREu3BncLQYVw7gb2tR5K_M"
+
+-------------------------------------------
+
+_id: ObjectId('69e70491d08effda1b795c5a')
+username: "aadya4"
+email: "aadya4@gmail.com"
+password: "$2b$10$pcsHjKN5Em17heKEKa4di.8yJsfZyHPCHhI3100e/Y/IB2cHN5rQ."
+
+likes: Array (1)
+0: ObjectId('69e706c93a2f9a071d88ca21')
+
+savedPosts: Array (5)
+0: ObjectId('69e7055ad08effda1b795cd3')
+1: ObjectId('69e7069d3a2f9a071d88ca11')
+2: ObjectId('69e704ebd08effda1b795c6a')
+3: ObjectId('69e703fcd08effda1b795c2d')
+4: ObjectId('69e7037fd08effda1b795c16')
+
+posts: Array (5)
+0: ObjectId('69e7055ad08effda1b795cd1')
+1: ObjectId('69e7055ad08effda1b795cd3')
+2: ObjectId('69e7055ad08effda1b795cd5')
+3: ObjectId('69e7055ad08effda1b795cd7')
+4: ObjectId('69e7055ad08effda1b795cd9')
+isAvailable: true
+createdAt: ISODate('2026-04-21T05:01:05.415+00:00')
+updatedAt: ISODate('2026-04-21T16:51:27.455+00:00')
+__v: 0
+refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OWU3MDQ5MWQwOGVmZmRhMWI3OTVjNWEiLCJpYXQiOjE3NzY3NDc2NjUsImV4cCI6MTc3NzM1MjQ2NX0.t-jByIVp95KjuuVe-lDuXUvG1hZ0VHJlRTU7IdtEgK4"
+
+-------------------------------------------
+
+_id: ObjectId('6a6716f76a7be723a85320d4')
+username: "t1"
+email: "t1@gmail.com"
+password: "$2b$10$Rj8ObOy4i2c.LlEjMcsVsOIKPgTVWoHxJw09TU4kd02LLR7PwFQqi"
+
+likes: Array (empty)
+
+savedPosts: Array (empty)
+
+posts: Array (empty)
+isAvailable: true
+createdAt: ISODate('2026-07-27T08:29:43.587+00:00')
+updatedAt: ISODate('2026-07-27T08:29:43.813+00:00')
+__v: 0
+refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTY3MTZmNzZhN2JlNzIzYTg1MzIwZDQiLCJpYXQiOjE3ODUxNDA5ODMsImV4cCI6MTc4NTc0NTc4M30.ckWwIW2AEeg1BwdoGUXl2HpgRvMdkdTTczg7Spsw23M"
+
+-------------------------------------------
+
+_id: ObjectId('6a677187a1cfc88d35407504')
+username: "t2"
+email: "t2@gmail.com"
+password: "$2b$10$Wu2II7rD6cmU8NG2Bm0LluVcvl5kbbAGgm5l.ma94o3xkfh5Ldb9u"
+
+likes: Array (3)
+0: ObjectId('69e7069d3a2f9a071d88ca15')
+1: ObjectId('6a6b5b0e7749fad2feeafe95')
+2: ObjectId('6a6cea0606017e401a264055')
+
+savedPosts: Array (empty)
+
+posts: Array (1)
+0: ObjectId('6a6cea0606017e401a264055')
+isAvailable: true
+createdAt: ISODate('2026-07-27T14:56:07.879+00:00')
+updatedAt: ISODate('2026-07-31T18:54:58.634+00:00')
+__v: 0
+refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTY3NzE4N2ExY2ZjODhkMzU0MDc1MDQiLCJpYXQiOjE3ODUxNjQxNjgsImV4cCI6MTc4NTc2ODk2OH0.4tdzkMe9sA2tdDtRJSUbzSaJIYpySi3jRVEaYQ2LjZY"
+qdrantId: "1a1462a8-c8b0-41e4-993f-a8dce0999949"
+
+-------------------------------------------
+
+_id: ObjectId('6a6771c0a1cfc88d35407505')
+username: "t3"
+email: "t3@gmail.com"
+password: "$2b$10$/doWVJeJb8GGflVl/Jw.aOPkCXVs7JKp.YCT.8Cvr6glneonIBF4q"
+
+likes: Array (1)
+0: ObjectId('6a6cea0606017e401a264055')
+
+savedPosts: Array (empty)
+
+posts: Array (empty)
+isAvailable: true
+createdAt: ISODate('2026-07-27T14:57:04.178+00:00')
+This personal timezone display preference may be configured in Compass Settings.
+
+updatedAt: ISODate('2026-09-26T14:04:34.827+00:00')
+__v: 0
+refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTY3NzFjMGExY2ZjODhkMzU0MDc1MDUiLCJpYXQiOjE3ODUxNjQyMjQsImV4cCI6MTc4NTc2OTAyNH0.jXUoeBQv83Wr3d8o04DDdGje1SN1FS-GC7nQ8EO3EcM"
+qdrantId: "d7b325bb-3772-4adc-8f13-193eb7b6

@@ -18,7 +18,7 @@ function HomePage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [smartSearchQuery, setSmartSearchQuery] = useState('')
 
-  const {posts, liked_posts, saved_posts, pagination} = useLoaderData() as {
+  const {posts, pagination} = useLoaderData() as {
     posts: PostData[]
     liked_posts: string[]
     saved_posts: string[]
@@ -27,7 +27,6 @@ function HomePage() {
   };
 
   const currentTopic = (searchParams.get('topic') || '').trim().toLowerCase()
-  const [topicInput, setTopicInput] = useState(currentTopic)
 
   const currentPage = pagination?.page || Number(searchParams.get('page') || 1) || 1
 
@@ -38,33 +37,11 @@ function HomePage() {
     setSearchParams(nextParams)
   }
 
-  const applyTopicFilter = () => {
-    const normalizedTopic = topicInput.trim().toLowerCase()
-    const nextParams: Record<string, string> = { page: '1' }
-
-    if (normalizedTopic) {
-      nextParams.topic = normalizedTopic
-    }
-
-    setSearchParams(nextParams)
-  }
-
-  const clearTopicFilter = () => {
-    setTopicInput('')
-    setSearchParams({ page: '1' })
-  }
-
   const handleSmartSearch = () => {
     const query = smartSearchQuery.trim()
     if (!query) return
     // Navigate to similarity search results page
     navigate(`/search/similar/${encodeURIComponent(query)}`)
-  }
-
-  const handleSmartSearchKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      handleSmartSearch()
-    }
   }
   
   return (
@@ -135,10 +112,11 @@ function HomePage() {
             authorId={post.author._id}
             title={post.title} 
             description={post.description} 
-            likes={post.likes}
+            caption={post.caption}
+            likesCount={post.likesCount}
+            commentsCount={post.commentsCount}
+            viewsCount={post.viewsCount}
             topics={post.topics || []}
-            isLiked={liked_posts.includes(post._id)}
-            isSaved={saved_posts.includes(post._id)}
             onOpenPost={() => navigate(`/post/${post._id}`)}
           />
         ))}

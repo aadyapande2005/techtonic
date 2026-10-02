@@ -11,15 +11,15 @@ body {
 
 .simple-editor-container {
   font-family: "Inter", sans-serif;
-  color: var(--tt-theme-text);
+  color: var(--ink);
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
   padding: 0;
   overscroll-behavior-y: none;
-  height: 100%;
-  background-color: var(--tt-bg-color);
-  border: black;
+  width: 100%;
+  min-height: 24rem;
+  background-color: var(--surface-2);
 }
 
 .simple-editor-container,
@@ -27,21 +27,21 @@ body {
   box-sizing: border-box;
 }
 
-::-webkit-scrollbar {
+.simple-editor-container ::-webkit-scrollbar {
   width: 0.25rem;
 }
 
-* {
+.simple-editor-container * {
   scrollbar-width: thin;
   scrollbar-color: var(--tt-scrollbar-color) transparent;
 }
 
-::-webkit-scrollbar-thumb {
+.simple-editor-container ::-webkit-scrollbar-thumb {
   background-color: var(--tt-scrollbar-color);
   border-radius: 9999px;
 }
 
-::-webkit-scrollbar-track {
+.simple-editor-container ::-webkit-scrollbar-track {
   background: transparent;
 }
 
@@ -49,10 +49,92 @@ body {
   font-family: "DM Sans", sans-serif;
 }
 
+.tiptap-rendered-content {
+  font-family: "DM Sans", sans-serif;
+}
+
+.tiptap-rendered-content > * + * {
+  margin-top: 1rem;
+}
+
+.tiptap-rendered-content h1,
+.tiptap-rendered-content h2,
+.tiptap-rendered-content h3,
+.tiptap-rendered-content h4 {
+  font-family: "Fraunces", serif;
+  color: var(--ink);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.tiptap-rendered-content h1 {
+  font-size: 2rem;
+}
+
+.tiptap-rendered-content h2 {
+  font-size: 1.5rem;
+}
+
+.tiptap-rendered-content h3 {
+  font-size: 1.25rem;
+}
+
+.tiptap-rendered-content ul,
+.tiptap-rendered-content ol {
+  padding-left: 1.5rem;
+}
+
+.tiptap-rendered-content ul {
+  list-style: disc;
+}
+
+.tiptap-rendered-content ol {
+  list-style: decimal;
+}
+
+.tiptap-rendered-content blockquote {
+  border-left: 0.25rem solid var(--accent);
+  color: var(--accent-2);
+  padding-left: 1rem;
+}
+
+.tiptap-rendered-content pre {
+  overflow-x: auto;
+  border-radius: 0.75rem;
+  background: var(--ink);
+  color: var(--surface-2);
+  padding: 1rem;
+  font-size: 0.9em;
+}
+
+.tiptap-rendered-content code {
+  border-radius: 0.25rem;
+  background: var(--bg-1);
+  padding: 0.1em 0.3em;
+}
+
+.tiptap-rendered-content pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.tiptap-rendered-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+}
+
+.tiptap-rendered-content hr {
+  border: 0;
+  border-top: 1px solid var(--bg-2);
+}
+
 .simple-editor-wrapper {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 24rem;
   overflow: auto;
+  background: var(--surface-2);
 }
 
 .simple-editor-search-and-replace {
@@ -64,10 +146,9 @@ body {
 }
 
 .simple-editor-content {
-  max-width: 648px;
   width: 100%;
-  margin: 0 auto;
-  height: 100%;
+  min-height: 20rem;
+  margin: 0;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -75,7 +156,11 @@ body {
 
 .simple-editor-content .tiptap.ProseMirror.simple-editor {
   flex: 1;
-  padding: 3rem 3rem 30vh;
+  min-height: 20rem;
+  padding: 1.5rem;
+  color: var(--ink);
+  background: var(--surface-2);
+  outline: none;
 }
 
 @media screen and (max-width: 480px) {
@@ -87,6 +172,6 @@ body {
   }
 
   .simple-editor-content .tiptap.ProseMirror.simple-editor {
-    padding: 1rem 1.5rem 30vh;
+    padding: 1rem;
   }
 }

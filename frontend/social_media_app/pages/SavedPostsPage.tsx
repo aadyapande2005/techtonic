@@ -1,25 +1,10 @@
 import { useLoaderData, useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/authContext'
 import PostCard from '../components/PostCard'
 import type { PostData } from '../interfaces/postInterface'
 
-type LikeEntry = string | { _id?: string }
-
 function SavedPostsPage() {
   const navigate = useNavigate()
-  const auth = useAuth() as { user?: { _id?: string } } | null
-  const currentUserId = auth?.user?._id || ''
-
   const { savedPosts } = useLoaderData() as { savedPosts: PostData[] }
-
-  const isPostLikedByCurrentUser = (likes: LikeEntry[] = []) => {
-    if (!currentUserId) return false
-
-    return likes.some((likeEntry) => {
-      if (typeof likeEntry === 'string') return likeEntry === currentUserId
-      return likeEntry?._id === currentUserId
-    })
-  }
 
   return (
     <section className="mx-auto w-full max-w-7xl px-4 pb-10 pt-5">
@@ -53,10 +38,9 @@ function SavedPostsPage() {
                 authorId={post.author?._id || ''}
                 title={post.title}
                 description={post.description}
-                likes={post.likes || []}
+                caption={post.caption}
+                likesCount={post.likesCount}
                 topics={post.topics || []}
-                isLiked={isPostLikedByCurrentUser(post.likes as LikeEntry[])}
-                isSaved={true}
                 onOpenPost={() => navigate(`/post/${post._id}`)}
               />
             ))}

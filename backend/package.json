@@ -5,11 +5,16 @@
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "seed:dummy": "node seed-dummy-data.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx index.ts",
+    "seed:dummy": "tsx seed-dummy-data.ts",
+    "start": "node dist/index.js",
+    "worker:post": "node dist/workers/post.worker.js",
+    "worker:profile": "node dist/workers/profile.worker.js",
+    "worker:register": "node dist/workers/register.worker.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
     "@huggingface/transformers": "^4.2.0",
@@ -24,6 +29,14 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.1.5",
     "openai": "^7.3.0",
-    "uuid": "^14.0.1"
+    "uuid": "^14.0.1",
+    "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.9.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
   }
 }

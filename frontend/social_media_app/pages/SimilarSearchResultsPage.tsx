@@ -26,7 +26,7 @@ function SimilarSearchResultsPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [decodedQuery, setDecodedQuery] = useState('')
 
-  const { posts, liked_posts, saved_posts, pagination, query } = useLoaderData() as SimilarSearchLoaderData
+  const { posts, pagination, query } = useLoaderData() as SimilarSearchLoaderData
 
   useEffect(() => {
     if (search_query) {
@@ -90,10 +90,9 @@ function SimilarSearchResultsPage() {
                   authorId={post.author._id}
                   title={post.title}
                   description={post.description}
-                  likes={post.likes}
+                  caption={post.caption}
+                  likesCount={post.likesCount}
                   topics={post.topics || []}
-                  isLiked={liked_posts.includes(post._id)}
-                  isSaved={saved_posts.includes(post._id)}
                   onOpenPost={() => navigate(`/post/${post._id}`)}
                 />
               ))}

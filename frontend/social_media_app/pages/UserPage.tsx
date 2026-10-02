@@ -9,10 +9,7 @@ import { useEffect, useState } from "react";
 function UserPage() {
   const auth = useAuth() as { user?: { _id?: string, username?: string }, setUser?: (user: null) => void } | null
   const user = auth?.user
-  const currentUserId = user?._id || ''
   const navigate = useNavigate()
-
-  type LikeEntry = string | { _id?: string }
 
   const {posts} = useLoaderData() as { posts: PostData[] }
   const [userPosts, setUserPosts] = useState<PostData[]>(posts)
@@ -66,16 +63,6 @@ function UserPage() {
     }
   }
 
-  const isPostLikedByCurrentUser = (likes: LikeEntry[] = []) => {
-    if (!currentUserId) return false
-
-    return likes.some((likeEntry) => {
-      if (typeof likeEntry === 'string') return likeEntry === currentUserId
-      return likeEntry?._id === currentUserId
-    })
-  }
-
-
   return (
     <section className="mx-auto w-full max-w-7xl px-4 pb-10 pt-5">
       <div className="rise-in rounded-3xl border border-amber-200/70 bg-amber-50/90 p-4 shadow-2xl shadow-amber-900/15 md:p-6">
@@ -117,10 +104,9 @@ function UserPage() {
                 authorId={post.author?._id || ''}
                 title={post.title} 
                 description={post.description} 
-                likes={post.likes}
+                caption={post.caption}
+                likesCount={post.likesCount}
                 topics={post.topics || []}
-                isLiked={isPostLikedByCurrentUser(post.likes as LikeEntry[])}
-                isSaved={false}
                 onOpenPost={() => navigate(`/post/${post._id}`)}
               />
 

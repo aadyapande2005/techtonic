@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PostCard from './PostCard'
 import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
 import type { PostData } from '../interfaces/postInterface';
+import { apiRequest } from '../lib/apiRequest';
 
 interface PaginationData {
   page: number
@@ -15,10 +16,15 @@ interface PaginationData {
 
 function HomePage() {
   const navigate = useNavigate()
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
   const [smartSearchQuery, setSmartSearchQuery] = useState('')
+  const [loadedPosts, setLoadedPosts] = useState<PostData[]>([])
+  const [loadedPagination, setLoadedPagination] = useState<PaginationData | undefined>()
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
+  const [loadError, setLoadError] = useState('')
+  const [retryCount, setRetryCount] = useState(0)
 
-  const {posts, pagination} = useLoaderData() as {
+  const {posts: initialPosts, pagination: initialPagination} = useLoaderData() as {
     posts: PostData[]
     liked_posts: string[]
     saved_posts: string[]
@@ -27,15 +33,46 @@ function HomePage() {
   };
 
   const currentTopic = (searchParams.get('topic') || '').trim().toLowerCase()
+  const posts = loadedPosts.length > 0 || initialPosts.length === 0 ? loadedPosts : initialPosts
+  const pagination = loadedPagination || initialPagination
 
   const currentPage = pagination?.page || Number(searchParams.get('page') || 1) || 1
 
-  const changePage = (newPage: number) => {
-    if (newPage < 1 || newPage > (pagination?.totalPages || 1)) return
-    const nextParams: Record<string, string> = { page: String(newPage) }
-    if (currentTopic) nextParams.topic = currentTopic
-    setSearchParams(nextParams)
-  }
+  useEffect(() => {
+    setLoadedPosts(initialPosts)
+    setLoadedPagination(initialPagination)
+    setLoadError('')
+  }, [initialPosts, initialPagination, currentTopic])
+
+  useEffect(() => {
+    const sentinel = document.getElementById('home-feed-sentinel')
+    if (!sentinel || isLoadingMore || !pagination?.hasNextPage) return
+
+    const observer = new IntersectionObserver(async ([entry]) => {
+      if (!entry.isIntersecting || isLoadingMore) return
+
+      setIsLoadingMore(true)
+      setLoadError('')
+
+      try {
+        const nextPage = currentPage + 1
+        const endpoint = currentTopic
+          ? `/post/topic/${encodeURIComponent(currentTopic)}?page=${nextPage}&limit=9`
+          : `/post?page=${nextPage}&limit=9`
+        const response = await apiRequest.get(endpoint)
+
+        setLoadedPosts((currentPosts) => [...currentPosts, ...(response.data.posts || [])])
+        setLoadedPagination(response.data.pagination)
+      } catch {
+        setLoadError('Unable to load more posts.')
+      } finally {
+        setIsLoadingMore(false)
+      }
+    }, { rootMargin: '0px 0px 400px' })
+
+    observer.observe(sentinel)
+    return () => observer.disconnect()
+  }, [currentPage, currentTopic, isLoadingMore, pagination?.hasNextPage, retryCount])
 
   const handleSmartSearch = () => {
     const query = smartSearchQuery.trim()
@@ -122,26 +159,14 @@ function HomePage() {
         ))}
       </div>
 
-      <div className='mt-8 flex flex-wrap items-center justify-center gap-3'>
-        <button
-          className='pressable cursor-pointer rounded-full border border-amber-300 bg-amber-50/90 px-4 py-2 text-amber-900 disabled:cursor-not-allowed disabled:opacity-50'
-          onClick={() => changePage(currentPage - 1)}
-          disabled={!pagination?.hasPrevPage}
-        >
-          Previous
-        </button>
-
-        <div className='rounded-full border border-amber-300 bg-orange-50/90 px-4 py-2 text-sm text-amber-900'>
-          Page {currentPage} of {pagination?.totalPages || 1}
-        </div>
-
-        <button
-          className='pressable cursor-pointer rounded-full border border-amber-300 bg-amber-50/90 px-4 py-2 text-amber-900 disabled:cursor-not-allowed disabled:opacity-50'
-          onClick={() => changePage(currentPage + 1)}
-          disabled={!pagination?.hasNextPage}
-        >
-          Next
-        </button>
+      <div id='home-feed-sentinel' className='mt-8 flex min-h-12 items-center justify-center text-sm text-amber-800' aria-live='polite'>
+        {isLoadingMore && <span>Loading more posts...</span>}
+        {!isLoadingMore && loadError && (
+          <button className='pressable cursor-pointer rounded-full border border-amber-300 bg-amber-50/90 px-4 py-2 text-amber-900' onClick={() => setRetryCount((count) => count + 1)}>
+            {loadError} Try again
+          </button>
+        )}
+        {!isLoadingMore && !loadError && !pagination?.hasNextPage && posts.length > 0 && <span>You have reached the end.</span>}
       </div>
       </section>
     </>

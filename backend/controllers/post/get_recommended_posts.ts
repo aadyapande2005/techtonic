@@ -18,6 +18,10 @@ const getrecommedposts = async (req, res) => {
 
         const user_vector = user_qdrant.vector;
 
+        if (!user_vector) {
+            return res.status(404).json({ success: false, message: "user vector not found" });
+        }
+
         const recommended_posts = await QdrantService.search("posts", user_vector, 10);
 
         return res.status(200).json({

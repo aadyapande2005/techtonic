@@ -52,6 +52,23 @@ const postSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    relatedPosts: {
+        posts: [
+            {
+                postId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Post'
+                },
+                score: {
+                    type: Number
+                }
+            }
+        ],
+        updatedAt: {
+            type: Date,
+            default: null
+        }
+    }
 },{timestamps:true});
 
 const Post = mongoose.model('Post', postSchema);

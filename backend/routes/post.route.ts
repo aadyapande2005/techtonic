@@ -16,12 +16,15 @@ import { get_posts_by_similarity } from '../controllers/post/get_posts_by_simila
 import { createComment } from '../controllers/post/comment/createComment.js';
 import { getComments } from '../controllers/post/comment/getComments.js';
 import { recordView } from '../controllers/post/view/recordView.js';
+import { get_related_posts } from '../controllers/post/get_related_posts.js';
 
 const postroutes = express();
 
 postroutes.get('/', getposts);
 postroutes.get('/topic/:topic', getpostsbytopic);
 postroutes.get('/getpost/:postid', getpost);
+postroutes.get('/:postid/related', get_related_posts);
+postroutes.get('/related/:postid', get_related_posts);
 postroutes.get('/like/:postid', verifyjwt, likepost);
 postroutes.get('/unlike/:postid', verifyjwt, unlikepost);
 postroutes.get('/save/:postid', verifyjwt, savepost);

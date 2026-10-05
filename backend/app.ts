@@ -4,11 +4,7 @@ dotenv.config();
 import express, { json } from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
+import { uploadsDirectory } from './utils/imageStorage.js';
 
 export const app = express();
 
@@ -19,6 +15,7 @@ app.use(cors({
 app.use(express.json({limit: "16kb"}))
 app.use(express.urlencoded({extended: true, limit: "16kb"}))
 app.use(cookieParser())
+app.use('/uploads', express.static(uploadsDirectory))
 
 
 import authroutes from './routes/auth.route.js';
@@ -28,13 +25,3 @@ import userroutes from './routes/user.route.js';
 app.use('/auth', authroutes);
 app.use('/post', postroutes);
 app.use('/user', userroutes);
-
-// Serve static files from frontend build
-// app.use(express.static(path.join(__dirname, "../frontend/social_media_app/dist")));
-
-// SPA catch-all route - serve index.html for all unmatched routes
-// app.get(/\/.*/, (req, res) => {
-//   res.sendFile(path.resolve(__dirname, "../frontend/social_media_app/dist/index.html"));
-// });
-
-

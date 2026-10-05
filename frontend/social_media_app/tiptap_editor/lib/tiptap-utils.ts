@@ -14,6 +14,8 @@ import {
   type NodeWithPos,
 } from "@tiptap/react"
 
+import { apiRequest } from "../../lib/apiRequest"
+
 export const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
 
 export const MAC_SYMBOLS: Record<string, string> = {
@@ -386,17 +388,26 @@ export const handleImageUpload = async (
     )
   }
 
-  // For demo/testing: Simulate upload progress. In production, replace the following code
-  // with your own upload implementation.
-  for (let progress = 0; progress <= 100; progress += 10) {
-    if (abortSignal?.aborted) {
-      throw new Error("Upload cancelled")
+  const response = await apiRequest.post<{ url: string }>(
+    "/post/upload-image",
+    file,
+    {
+      signal: abortSignal,
+      headers: { "Content-Type": file.type },
+      onUploadProgress: ({ loaded, total }) => {
+        if (total) {
+          onProgress?.({ progress: Math.round((loaded / total) * 100) })
+        }
+      },
     }
-    await new Promise((resolve) => setTimeout(resolve, 500))
-    onProgress?.({ progress })
+  )
+
+  if (!response.data.url) {
+    throw new Error("Image upload failed: no image URL returned")
   }
 
-  return "/images/image.png" // Replace with actual uploaded image URL
+  const apiBaseUrl = apiRequest.defaults.baseURL || window.location.origin
+  return new URL(response.data.url, apiBaseUrl).toString()
 }
 
 type ProtocolOptions = {

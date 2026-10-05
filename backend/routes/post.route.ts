@@ -16,6 +16,7 @@ import { get_posts_by_similarity } from '../controllers/post/get_posts_by_simila
 import { createComment } from '../controllers/post/comment/createComment.js';
 import { getComments } from '../controllers/post/comment/getComments.js';
 import { recordView } from '../controllers/post/view/recordView.js';
+import { uploadImage } from '../controllers/post/uploadImage.js';
 
 const postroutes = express();
 
@@ -32,6 +33,15 @@ postroutes.post('/:postid/comments', verifyjwt, createComment);
 postroutes.post('/:postid/view', verifyjwt, recordView);
 postroutes.get('/similar/:search_query', verifyjwt, get_posts_by_similarity);
 postroutes.post('/createpost', verifyjwt, generatepost);
+postroutes.post(
+    '/upload-image',
+    verifyjwt,
+    express.raw({
+        type: ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif'],
+        limit: '5mb'
+    }),
+    uploadImage
+);
 postroutes.post('/createposts', verifyjwt, generatemultipleposts);
 postroutes.delete('/deletepost/:postid', verifyjwt, deletepost)
 

@@ -3,7 +3,7 @@ import { Bookmark, Eye, Heart, MessageCircle } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import type { JSONContent } from '@tiptap/core'
-import { Image } from '@tiptap/extension-image'
+import { ConfigurableImage } from '@/components/tiptap-node/image-node/image-node-extension'
 import { TaskItem, TaskList } from '@tiptap/extension-list'
 import { TextAlign } from '@tiptap/extension-text-align'
 import { Typography } from '@tiptap/extension-typography'
@@ -15,6 +15,7 @@ import { StarterKit } from '@tiptap/starter-kit'
 import { Selection } from '@tiptap/extensions'
 import { apiRequest } from '../lib/apiRequest'
 import { HorizontalRule } from '@/components/tiptap-node/horizontal-rule-node/horizontal-rule-node-extension'
+import '@/components/tiptap-node/image-node/image-node.scss'
 
 const postContentExtensions = [
   StarterKit.configure({
@@ -29,7 +30,7 @@ const postContentExtensions = [
   TaskList,
   TaskItem.configure({ nested: true }),
   Highlight.configure({ multicolor: true }),
-  Image,
+  ConfigurableImage,
   Typography,
   Superscript,
   Subscript,

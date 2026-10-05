@@ -1,11 +1,17 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
-import { EditorContent, EditorContext, useEditor } from "@tiptap/react"
+import {
+  EditorContent,
+  EditorContext,
+  useEditor,
+} from "@tiptap/react"
 
 // --- Tiptap Core Extensions ---
 import { StarterKit } from "@tiptap/starter-kit"
-import { Image } from "@tiptap/extension-image"
+import {
+  ConfigurableImage,
+} from "@/components/tiptap-node/image-node/image-node-extension"
 import { TaskItem, TaskList } from "@tiptap/extension-list"
 import { TextAlign } from "@tiptap/extension-text-align"
 import { Typography } from "@tiptap/extension-typography"
@@ -238,7 +244,7 @@ export function SimpleEditor({ onContentChange }: { onContentChange?: (content: 
       TaskList,
       TaskItem.configure({ nested: true }),
       Highlight.configure({ multicolor: true }),
-      Image,
+      ConfigurableImage,
       Typography,
       Superscript,
       Subscript,
@@ -248,7 +254,7 @@ export function SimpleEditor({ onContentChange }: { onContentChange?: (content: 
         injectCSS: false,
       }),
       ImageUploadNode.configure({
-        accept: "image/*",
+        accept: "image/jpeg,image/png,image/gif,image/webp,image/avif",
         maxSize: MAX_FILE_SIZE,
         limit: 3,
         upload: handleImageUpload,

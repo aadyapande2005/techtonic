@@ -33,3 +33,115 @@
     margin: 0;
   }
 }
+
+.tiptap.ProseMirror img[data-image-size="small"],
+.tiptap-rendered-content img[data-image-size="small"] {
+  width: 25%;
+}
+
+.tiptap.ProseMirror img[data-image-size="medium"],
+.tiptap-rendered-content img[data-image-size="medium"] {
+  width: 50%;
+}
+
+.tiptap.ProseMirror img[data-image-size="large"],
+.tiptap-rendered-content img[data-image-size="large"] {
+  width: 75%;
+}
+
+.tiptap.ProseMirror img[data-image-size="full"],
+.tiptap-rendered-content img[data-image-size="full"] {
+  width: 100%;
+}
+
+.tiptap-image-wrapper,
+.tiptap-rendered-content [data-image-wrapper] {
+  display: flex;
+  width: 100%;
+  margin: 2rem 0;
+  position: relative;
+}
+
+.tiptap.ProseMirror .tiptap-image-wrapper.ProseMirror-selectednode:not(.react-renderer) {
+  border-radius: 0;
+  background-color: transparent;
+}
+
+.tiptap-image-wrapper[data-image-alignment="left"],
+.tiptap-rendered-content [data-image-wrapper][data-image-alignment="left"] {
+  justify-content: flex-start;
+}
+
+.tiptap-image-wrapper[data-image-alignment="center"],
+.tiptap-rendered-content [data-image-wrapper][data-image-alignment="center"] {
+  justify-content: center;
+}
+
+.tiptap-image-wrapper[data-image-alignment="right"],
+.tiptap-rendered-content [data-image-wrapper][data-image-alignment="right"] {
+  justify-content: flex-end;
+}
+
+.image-node-toolbar {
+  position: absolute;
+  z-index: 2;
+  top: -2.75rem;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  transform: translateX(-50%);
+  border: 1px solid rgb(217 119 6 / 22%);
+  border-radius: 0.75rem;
+  background: rgb(255 255 255 / 96%);
+  padding: 0.25rem;
+  box-shadow: 0 4px 14px rgb(120 53 15 / 16%);
+  color: #78350f;
+}
+
+.image-node-toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.image-node-toolbar-button {
+  display: inline-flex;
+  min-width: 1.75rem;
+  height: 1.75rem;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 0.45rem;
+  background: transparent;
+  padding: 0 0.35rem;
+  color: inherit;
+  cursor: pointer;
+  font: 600 0.7rem/1 inherit;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.image-node-toolbar-button:hover {
+  background: #ffedd5;
+}
+
+.image-node-toolbar-button[data-active="true"] {
+  background: #b45309;
+  color: white;
+}
+
+.image-node-toolbar-button:focus-visible {
+  outline: 2px solid #f59e0b;
+  outline-offset: 2px;
+}
+
+.image-node-toolbar-icon-button {
+  min-width: 1.85rem;
+  padding: 0;
+}
+
+.image-node-toolbar-divider {
+  width: 1px;
+  height: 1.25rem;
+  background: #fed7aa;
+}

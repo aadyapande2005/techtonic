@@ -27,7 +27,7 @@ services:
     volumes:
       - ./backend:/app/backend
       - /app/backend/node_modules  # Isolate node_modules from the host
-    command: sh -c "npm run build && (npm run worker:post & npm run worker:profile & npm run worker:register & wait)"
+    command: sh -c "npm run build && (npm run worker:post & npm run worker:profile & npm run worker:register & npm run worker:related-posts & wait)"
     depends_on:
       - backend
 

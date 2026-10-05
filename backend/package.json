@@ -14,6 +14,7 @@
     "worker:post": "node dist/workers/post.worker.js",
     "worker:profile": "node dist/workers/profile.worker.js",
     "worker:register": "node dist/workers/register.worker.js",
+    "worker:related-posts": "node dist/workers/relatedPosts.worker.js",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {

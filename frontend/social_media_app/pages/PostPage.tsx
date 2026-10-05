@@ -1,7 +1,8 @@
 
-import { Bookmark, Eye, Heart, MessageCircle } from 'lucide-react'
+import { Bookmark, Eye, Heart, MessageCircle, Loader2, Sparkles } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import PostCard from '../components/PostCard'
 import type { JSONContent } from '@tiptap/core'
 import { ConfigurableImage } from '@/components/tiptap-node/image-node/image-node-extension'
 import { TaskItem, TaskList } from '@tiptap/extension-list'
@@ -68,6 +69,25 @@ const getPostDocument = (description: unknown): JSONContent | null => {
 
 type PostRef = string | { _id?: string }
 
+interface RelatedPostItem {
+  postId: {
+    _id: string
+    title: string
+    description: unknown
+    caption?: string
+    author?: {
+      _id?: string
+      username?: string
+      email?: string
+    }
+    likesCount?: number
+    commentsCount?: number
+    viewsCount?: number
+    topics?: string[]
+  } | null
+  score?: number
+}
+
 interface DetailedPost {
   _id: string
   title: string
@@ -83,6 +103,10 @@ interface DetailedPost {
     email?: string
   }
   createdAt?: string
+  relatedPosts?: {
+    posts?: RelatedPostItem[]
+    updatedAt?: string | null
+  }
 }
 
 interface CommentData {
@@ -116,6 +140,9 @@ function PostPage() {
   const [commentContent, setCommentContent] = useState('')
   const [commentError, setCommentError] = useState('')
   const [isCommenting, setIsCommenting] = useState(false)
+  const [relatedPosts, setRelatedPosts] = useState<RelatedPostItem[]>([])
+  const [isFetchingRelated, setIsFetchingRelated] = useState(false)
+  const [relatedMessage, setRelatedMessage] = useState('')
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -151,6 +178,8 @@ function PostPage() {
 
         const response = await apiRequest.get(`/post/getpost/${postid}`)
         setPost(response.data.findpost)
+        setRelatedPosts(response.data.findpost?.relatedPosts?.posts || [])
+        setRelatedMessage('')
         const commentsResponse = await apiRequest.get(`/post/${postid}/comments?page=1`)
         setComments(commentsResponse.data.comments || [])
         setCommentPagination(commentsResponse.data.pagination || null)
@@ -268,6 +297,32 @@ function PostPage() {
       setIsSaving(false)
     }
   }
+
+  const handleFetchRelatedPosts = async () => {
+    if (!postid || isFetchingRelated) return
+
+    try {
+      setIsFetchingRelated(true)
+      setRelatedMessage('')
+      const response = await apiRequest.get(`/post/${postid}/related`)
+      const fetched = response.data?.relatedPosts || []
+      setRelatedPosts(fetched)
+      if (fetched.length === 0) {
+        setRelatedMessage('Related posts are currently being generated in the background. Please try again shortly.')
+      }
+    } catch (err: any) {
+      setRelatedMessage(err?.response?.data?.message || 'Unable to fetch related posts at this time.')
+    } finally {
+      setIsFetchingRelated(false)
+    }
+  }
+
+  const validRelatedPosts = useMemo(() => {
+    return relatedPosts.filter(
+      (item): item is RelatedPostItem & { postId: NonNullable<RelatedPostItem['postId']> } =>
+        Boolean(item.postId && item.postId._id)
+    )
+  }, [relatedPosts])
 
   const postDocument = useMemo(
     () => (post ? getPostDocument(post.description) : null),
@@ -451,6 +506,79 @@ function PostPage() {
           </section>
         </div>
       </div>
+
+      {/* Related Posts Section below the entire post */}
+      <section className="mt-10 space-y-6" aria-labelledby="related-posts-heading">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h2 id="related-posts-heading" className="display-title text-3xl text-amber-950">
+              Related Posts
+            </h2>
+            <p className="mt-1 text-sm text-amber-800">
+              Recommended posts based on semantic similarity
+            </p>
+          </div>
+
+          {/* Button is available ONLY if related posts are empty */}
+          {validRelatedPosts.length === 0 && (
+            <button
+              type="button"
+              onClick={handleFetchRelatedPosts}
+              disabled={isFetchingRelated}
+              className="pressable flex items-center gap-2 rounded-full bg-amber-900 px-5 py-2.5 text-sm font-semibold text-amber-50 shadow-md shadow-amber-900/20 transition hover:bg-amber-950 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isFetchingRelated ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span>Fetching related posts...</span>
+                </>
+              ) : (
+                <>
+                  <Sparkles className="h-4 w-4 text-amber-300" />
+                  <span>Get Related Posts</span>
+                </>
+              )}
+            </button>
+          )}
+        </div>
+
+        {relatedMessage && (
+          <div className="rounded-2xl border border-amber-300/80 bg-amber-100/70 p-4 text-sm text-amber-900">
+            {relatedMessage}
+          </div>
+        )}
+
+        {validRelatedPosts.length > 0 ? (
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {validRelatedPosts.map(({ postId: relPost }) => (
+              <PostCard
+                key={relPost._id}
+                _id={relPost._id}
+                title={relPost.title}
+                description={relPost.description}
+                caption={relPost.caption}
+                author={relPost.author?.username || 'Unknown author'}
+                authorId={relPost.author?._id}
+                likesCount={relPost.likesCount || 0}
+                commentsCount={relPost.commentsCount || 0}
+                viewsCount={relPost.viewsCount || 0}
+                topics={relPost.topics || []}
+                onOpenPost={() => {
+                  navigate(`/post/${relPost._id}`)
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-3xl border border-dashed border-amber-300 bg-amber-50/60 p-8 text-center text-amber-800">
+            <p className="text-base font-medium">No related posts loaded yet.</p>
+            <p className="mt-1 text-sm text-amber-700">
+              Click &quot;Get Related Posts&quot; to fetch recommendations from the database once background processing completes.
+            </p>
+          </div>
+        )}
+      </section>
     </section>
   )
 }

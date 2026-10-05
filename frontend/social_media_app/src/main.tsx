@@ -13,6 +13,7 @@ import PostPage from '../pages/PostPage.tsx'
 import SavedPostsPage from '../pages/SavedPostsPage.tsx'
 import UserDetailPage from '../pages/UserDetailPage.tsx'
 import SimilarSearchResultsPage from '../pages/SimilarSearchResultsPage.tsx'
+import Temp from '../pages/Temp.tsx'
 
 import getposts from '../loaders/postLoader'
 import userPosts from '../loaders/userPostLoader.ts'
@@ -53,8 +54,8 @@ const router = createBrowserRouter([
         loader: getSimilarPosts
       },
       {
-        path: '/editor',
-        element: <CreatePostPage />
+        path: '/temp',
+        element: <Temp />
       },
     ]
   },
